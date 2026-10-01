@@ -1,82 +1,21 @@
-document.getElementById("year").textContent = new Date().getFullYear();
-
-const buttons = document.querySelectorAll(".btn, .panel-header a");
-
-buttons.forEach((button) => {
-  button.addEventListener("mouseenter", () => {
-    button.style.transform = "translateY(-2px)";
-  });
-
-  button.addEventListener("mouseleave", () => {
-    button.style.transform = "translateY(0)";
-  });
-});
-
-const realmCards = document.querySelectorAll(".realm-card");
-realmCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    realmCards.forEach((node) => node.classList.remove("active"));
-    card.classList.add("active");
-  });
-});
-
-const activeCard = document.querySelector(".realm-card.active");
-if (activeCard) {
-  activeCard.style.borderColor = "rgba(247, 162, 30, 0.35)";
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const S={gold:12500,food:8000,essence:250,power:1250,level:1,buildings:{Keep:1,Farm:1,Barracks:1,Forge:1,"Dragon Sanctuary":1},troops:{Swordsmen:120,Archers:80,Guardians:30},dragons:{Drago:1,Nyx:0,Tharros:0,Kaelith:0,Veyra:0},wins:0};
+const buildings={Keep:["🏰","Heart of your realm",1800,900],Farm:["🌾","Produces food for your armies",900,300],Barracks:["⚔️","Trains and houses warriors",1200,600],Forge:["🔥","Strengthens weapons and armour",1400,500],"Dragon Sanctuary":["🐉","Home of the ancient dragons",2200,800]};
+const troopData={Swordsmen:["🗡️",100,45,12],Archers:["🏹",130,55,15],Guardians:["🛡️",220,90,28]};
+const dragonData={Drago:["🔥","The First Flame",0],Nyx:["🌑","Shadow of the Realms",180],Tharros:["⚡","Storm Wing",260],Kaelith:["❄️","Frost Guardian",340],Veyra:["✨","Crystal Seer",450]};
+const enemies=[["Ash Raiders","☠️",900,900,450],["Xarath's Legion","👹",1800,1800,850],["The Black Citadel","🏯",3200,3200,1500]];
+const $=s=>document.querySelector(s),fmt=n=>Math.floor(n).toLocaleString();
+function sync(){["gold","food","essence","power","level"].forEach(k=>$("#"+k).textContent=fmt(S[k]));render();}
+function render(){let b="";for(const [n,d] of Object.entries(buildings)){let l=S.buildings[n],g=d[2]*l,f=d[3]*l;b+=card(d[0],n,d[1],`Level ${l}`,`🪙 ${fmt(g)} • 🌾 ${fmt(f)}`,`upgrade('${n}')`,"UPGRADE");}$("#buildings").innerHTML=b;
+let t="";for(const [n,d] of Object.entries(troopData))t+=card(d[0],n,`Attack ${d[3]} each`,`${fmt(S.troops[n])} troops`,`🪙 ${d[1]*10} • 🌾 ${d[2]*10}`,`train('${n}')`,"TRAIN 10");$("#troops").innerHTML=t;
+let dr="";for(const [n,d] of Object.entries(dragonData)){let l=S.dragons[n],cost=l?80*l:d[2];dr+=card(d[0],n,d[1],l?`Level ${l}`:"Sleeping",cost?`💎 ${cost}`:"Bonded",cost?`dragon('${n}')`:"","AWAKEN / TRAIN",!l&&S.essence<cost);}$("#dragonList").innerHTML=dr;
+$("#enemies").innerHTML=enemies.map((e,i)=>card(e[1],e[0],`Enemy Power ${fmt(e[2])}`,`Reward 🪙 ${fmt(e[3])}`,`🌾 ${fmt(e[4])}`,`fight(${i})`,"ATTACK")).join("");
+let qs=[["Raise the Keep",S.buildings.Keep>=3,1200,"Upgrade Keep to Level 3"],["First Blood",S.wins>=1,900,"Win your first battle"],["Dragon Bond",Object.values(S.dragons).filter(x=>x>0).length>=2,100,"Awaken a second dragon"]];$("#questList").innerHTML=qs.map((q,i)=>card(q[1]?"✅":"📜",q[0],q[3],q[1]?"Complete":"In progress",q[2]>=500?`🪙 ${q[2]}`:`💎 ${q[2]}`,q[1]?`claim(${i},${q[2]})`:"","CLAIM",!q[1])).join("")}
+function card(ic,n,desc,a,b,act,label,disabled=false){return `<article class="card"><div class="icon">${ic}</div><h3>${n}</h3><p>${desc}</p><div class="meta"><span>${a}</span><span>${b}</span></div>${act?`<button class="action" ${disabled?"disabled":""} onclick="${act}">${label}</button>`:""}</article>`}
+function upgrade(n){let l=S.buildings[n],d=buildings[n],g=d[2]*l,f=d[3]*l;if(S.gold<g||S.food<f)return msg("Not enough resources.");S.gold-=g;S.food-=f;S.buildings[n]++;S.power+=250*l;if(n==="Keep")S.level++;msg(`${n} upgraded to Level ${l+1}.`);sync()}
+function train(n){let d=troopData[n],g=d[1]*10,f=d[2]*10;if(S.gold<g||S.food<f)return msg("Your stores cannot support those troops.");S.gold-=g;S.food-=f;S.troops[n]+=10;S.power+=d[3]*10;msg(`10 ${n} joined your army.`);sync()}
+function dragon(n){let l=S.dragons[n],cost=l?80*l:dragonData[n][2];if(S.essence<cost)return msg("Not enough Dragon Essence.");S.essence-=cost;S.dragons[n]=l+1;S.power+=500*(l+1);msg(`${n} answers the call. Dragon power rises.`);sync()}
+function fight(i){let e=enemies[i],dragonPower=Object.values(S.dragons).reduce((a,x)=>a+x*350,0),army=Object.entries(S.troops).reduce((a,[n,c])=>a+c*troopData[n][3],0),strength=army+dragonPower+S.buildings.Forge*100,roll=.8+Math.random()*.45;if(strength*roll>=e[2]){S.gold+=e[3];S.food+=e[4];S.essence+=25+i*15;S.wins++;S.power+=120+i*80;msg(`🔥 VICTORY over ${e[0]}! Your banners rise across the realm.`)}else{for(let n in S.troops)S.troops[n]=Math.max(0,Math.floor(S.troops[n]*.94));S.power=Math.max(0,S.power-60);msg(`⚔️ ${e[0]} held the field. Survivors return to Emberhold.`)}sync()}
+const claimed=new Set();function claim(i,r){if(claimed.has(i))return msg("Reward already claimed.");claimed.add(i);if(r>=500)S.gold+=r;else S.essence+=r;msg("Quest reward claimed.");sync()}
+function msg(t){$("#battleLog").textContent=t}
+document.querySelectorAll(".tabs button").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tabs button,.tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");$("#"+btn.dataset.tab).classList.add("active")}));
+sync();
