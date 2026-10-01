@@ -29,3 +29,11 @@ function dragon(n){let d=dragonData[n],l=S.dragons[n],cost=l?80*l:d[2];if(S.seal
 function msg(t){$("#battleLog").textContent=t}
 document.querySelectorAll(".tabs button").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tabs button,.tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");$("#"+btn.dataset.tab).classList.add("active")}));
 sync();
+// Player account-ready progress controls. Email sign-in is activated by server credentials.
+const playerName=$('#playerName'),playerTitle=$('#playerTitle'),playerStatus=$('#playerStatus');
+const kingdom=()=>({gold:S.gold,food:S.food,essence:S.essence,power:S.power,level:S.level,seals:S.seals,crystals:S.crystals});
+async function playerApi(url,opt){const r=await fetch(url,opt);const d=await r.json();if(!r.ok)throw new Error(d.error||'Player account unavailable.');return d}
+async function savePlayer(){try{const d=await playerApi('/api/player/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({playerName:playerName.value||'Traveller',kingdom:kingdom()})});playerStatus.textContent='Progress saved securely to your player account.';playerTitle.textContent=playerName.value||'Traveller'}catch(e){playerStatus.textContent=e.message}}
+async function loadPlayer(){try{const d=await playerApi('/api/player/progress');if(!d.player){playerStatus.textContent='No saved kingdom yet. Start playing, then choose SAVE.';return}const k=d.player.kingdom;Object.keys(k).forEach(key=>{if(key in S)S[key]=k[key]});playerName.value=d.player.player_name;playerTitle.textContent=d.player.player_name;playerStatus.textContent='Saved kingdom loaded.';sync()}catch(e){playerStatus.textContent=e.message}}
+async function leaders(){const box=$('#leaderboard');try{const d=await playerApi('/api/player/leaderboard');box.hidden=false;box.innerHTML='<b>REALM LEADERS</b><ol>'+d.players.map(p=>'<li>'+p.name+' · '+fmt(p.power)+' power · level '+p.level+'</li>').join('')+'</ol>'}catch(e){playerStatus.textContent=e.message}}
+$('#saveProgress').onclick=savePlayer;$('#loadProgress').onclick=loadPlayer;$('#viewLeaders').onclick=leaders;
