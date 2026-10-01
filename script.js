@@ -1,4 +1,7 @@
-const S={gold:12500,food:8000,essence:250,power:1250,level:1,seals:0,crystals:0,wins:0,buildings:{Keep:1,Farm:1,Barracks:1,Forge:1,"Dragon Sanctuary":1},troops:{Swordsmen:120,Archers:80,Guardians:30},dragons:{Drago:1,Nyx:0,Tharros:0,Kaelith:0,Veyra:0}};
+const freshState=()=>({gold:12500,food:8000,essence:250,power:1250,level:1,seals:0,crystals:0,wins:0,buildings:{Keep:1,Farm:1,Barracks:1,Forge:1,"Dragon Sanctuary":1},troops:{Swordsmen:120,Archers:80,Guardians:30},dragons:{Drago:1,Nyx:0,Tharros:0,Kaelith:0,Veyra:0}});
+let S=freshState();
+try{const saved=localStorage.getItem("forgedDragonSave");if(saved)S=Object.assign(freshState(),JSON.parse(saved))}catch(e){}
+function saveGame(){try{localStorage.setItem("forgedDragonSave",JSON.stringify(S))}catch(e){}}
 const buildings={Keep:["🏰","Heart of Emberhold",1800,900],Farm:["🌾","Feeds the war host",900,300],Barracks:["⚔️","Raises warriors for clan war",1200,600],Forge:["🔥","Forges weapons against corrupted armies",1400,500],"Dragon Sanctuary":["🐉","Strengthens bonds with ancient dragons",2200,800]};
 const troopData={Swordsmen:["🗡️",100,45,12],Archers:["🏹",130,55,15],Guardians:["🛡️",220,90,28]};
 const dragonData={Drago:["🔥","First Flame • bonded",0,0],Nyx:["🌑","Shadow Wing • found beyond the Mist",180,1],Tharros:["⚡","Storm Dragon • waits beyond the Second Seal",260,2],Kaelith:["❄️","Frost Guardian • crystal-bound",340,4],Veyra:["✨","Crystal Seer • ancient bond",450,5]};
@@ -13,7 +16,7 @@ const realms=[
 const clans=[["🔥","House Ember","Keepers of the First Flame"],["🌑","Nightfang","Hunters of the Mist Roads"],["⚔️","Iron Crown","Warriors of Stormspire"],["👹","Legion of Xarath","Corrupted armies of the Black Citadel"],["🗡️","Shadow Guard","Malaki's hidden war host"],["🐉","The Forged","A clan united by dragons, seals and mercy"]];
 const $=s=>document.querySelector(s),fmt=n=>Math.floor(n).toLocaleString();
 function card(ic,n,d,a,b,act,label,dis=false){return `<article class="card"><div class="icon">${ic}</div><h3>${n}</h3><p>${d}</p><div class="meta"><span>${a}</span><span>${b}</span></div>${act?`<button class="action" ${dis?"disabled":""} onclick="${act}">${label}</button>`:""}</article>`}
-function sync(){["gold","food","essence","power","level"].forEach(k=>$("#"+k).textContent=fmt(S[k]));$("#sealCount").textContent=`${S.seals} / 7`;$("#crystalCount").textContent=`${S.crystals} / 7`;$("#sealDots").innerHTML=dots(S.seals);$("#crystalDots").innerHTML=dots(S.crystals);render()}
+function sync(){saveGame();["gold","food","essence","power","level"].forEach(k=>$("#"+k).textContent=fmt(S[k]));$("#sealCount").textContent=`${S.seals} / 7`;$("#crystalCount").textContent=`${S.crystals} / 7`;$("#sealDots").innerHTML=dots(S.seals);$("#crystalDots").innerHTML=dots(S.crystals);render()}
 function dots(n){return Array.from({length:7},(_,i)=>`<i class="relic ${i<n?"on":""}"></i>`).join("")}
 function render(){let b="";for(const[n,d]of Object.entries(buildings)){let l=S.buildings[n],g=d[2]*l,f=d[3]*l;b+=card(d[0],n,d[1],`Level ${l}`,`🪙 ${fmt(g)} • 🌾 ${fmt(f)}`,`upgrade('${n}')`,"UPGRADE")}$("#buildings").innerHTML=b;
 $("#troops").innerHTML=Object.entries(troopData).map(([n,d])=>card(d[0],n,`Attack ${d[3]} each`,`${fmt(S.troops[n])} troops`,`🪙 ${d[1]*10} • 🌾 ${d[2]*10}`,`train('${n}')`,"TRAIN 10")).join("");
