@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Forged of the Dragon — Kingdom War</title>
-<meta name="description" content="Build your realm, train armies, awaken dragons and conquer the Forged Realms.">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<header class="game-head"><div><b>🐉 FORGED OF THE DRAGON</b><small> KINGDOM WAR • ALPHA</small></div><div class="resources"><span>🪙 <b id="gold">12,500</b></span><span>🌾 <b id="food">8,000</b></span><span>💎 <b id="essence">250</b></span></div></header>
-<main>
-<section class="hero"><div><p class="kicker">THE FORGED REALMS AWAIT</p><h1 id="realmName">Emberhold</h1><p>Build your kingdom. Raise your army. Awaken the dragons. Forge alliances and conquer rival realms.</p><div class="power">Realm Power <b id="power">1,250</b></div></div><div class="crest">🐲<span>LEVEL <b id="level">1</b></span></div></section>
-<nav class="tabs" aria-label="Game"><button class="active" data-tab="kingdom">🏰 Kingdom</button><button data-tab="army">⚔️ Army</button><button data-tab="dragons">🐉 Dragons</button><button data-tab="battle">🔥 Battle</button><button data-tab="quests">📜 Quests</button></nav>
-<section id="kingdom" class="panel tab active"><div class="title"><div><small>YOUR REALM</small><h2>Kingdom</h2></div><p>Upgrade buildings to grow your war machine.</p></div><div id="buildings" class="cards"></div></section>
-<section id="army" class="panel tab"><div class="title"><div><small>WAR HOST</small><h2>Army</h2></div><p>Train troops using gold and food.</p></div><div id="troops" class="cards"></div></section>
-<section id="dragons" class="panel tab"><div class="title"><div><small>ANCIENT BONDS</small><h2>Dragon Sanctuary</h2></div><p>Spend essence to awaken and strengthen legendary dragons.</p></div><div id="dragonList" class="cards"></div></section>
-<section id="battle" class="panel tab"><div class="title"><div><small>WARFRONT</small><h2>Choose an Enemy</h2></div><p>Victory earns resources and renown. Defeat still costs troops.</p></div><div id="enemies" class="cards"></div><div id="battleLog" class="log">⚔️ Your war council awaits an order.</div></section>
-<section id="quests" class="panel tab"><div class="title"><div><small>THE CALLING</small><h2>Quests</h2></div><p>Complete milestones to earn rewards.</p></div><div id="questList" class="cards"></div></section>
-</main>
-<footer>GE & LE STUDIOS • THE FORGED BROTHERS <span>Forged of the Dragon Games</span></footer>
-<script src="script.js"></script>
-</body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Forged of the Dragon — Realm War</title><meta name="description" content="Find the Seven Crystals, break the Seals, awaken dragons and conquer the Forged Realms."><link rel="stylesheet" href="styles.css"></head><body>
+<header class="game-head"><div><b>🐉 FORGED OF THE DRAGON</b><small> REALM WAR • ALPHA</small></div><div class="resources"><span>🪙 <b id="gold"></b></span><span>🌾 <b id="food"></b></span><span>💎 <b id="essence"></b></span></div></header>
+<main><section class="hero"><div><p class="kicker">THE FORGED REALMS AWAIT</p><h1>Emberhold</h1><p>Raise your kingdom. Forge your clan. Hunt the Seven Crystals. Break the ancient Seals before Xarath's armies consume the Realms.</p><div class="power">Realm Power <b id="power"></b> • Level <b id="level"></b></div></div><div class="crest">🐲</div></section>
+<div class="relicbar"><span>🔒 SEALS <b id="sealCount">0 / 7</b></span><div id="sealDots"></div><span>💠 CRYSTALS <b id="crystalCount">0 / 7</b></span><div id="crystalDots"></div></div>
+<nav class="tabs"><button class="active" data-tab="realms">🗺️ Realms</button><button data-tab="kingdom">🏰 Kingdom</button><button data-tab="army">⚔️ Army</button><button data-tab="dragons">🐉 Dragons</button><button data-tab="clans">🛡️ Clans</button><button data-tab="quests">📜 Quests</button></nav>
+<section id="realms" class="panel tab active"><div class="title"><div><small>THE JOURNEY</small><h2>Map of the Forged Realms</h2></div><p>Each realm demands power, victory and ancient relics.</p></div><div id="realmMap" class="realm-map"></div><div id="battleLog" class="log">🔥 Drago circles above Emberhold. The First Seal waits beyond the ash road.</div></section>
+<section id="kingdom" class="panel tab"><div class="title"><div><small>YOUR STRONGHOLD</small><h2>Kingdom</h2></div></div><div id="buildings" class="cards"></div></section>
+<section id="army" class="panel tab"><div class="title"><div><small>WAR HOST</small><h2>Army</h2></div></div><div id="troops" class="cards"></div></section>
+<section id="dragons" class="panel tab"><div class="title"><div><small>ANCIENT BONDS</small><h2>Dragon Sanctuary</h2></div><p>Drago leads. The others must be found, awakened and bonded.</p></div><div id="dragonList" class="cards"></div></section>
+<section id="clans" class="panel tab"><div class="title"><div><small>CLAN WAR</small><h2>Houses of the Realms</h2></div><p>Rival clans control territory and relic routes.</p></div><div id="clanList" class="cards"></div></section>
+<section id="quests" class="panel tab"><div class="title"><div><small>PROPHECY</small><h2>The Forged Path</h2></div></div><div id="questList" class="cards"></div></section></main>
+<footer>GE & LE STUDIOS • THE FORGED BROTHERS <span>FORGED OF THE DRAGON GAMES</span></footer><script src="script.js"></script></body></html>
