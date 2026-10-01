@@ -1,0 +1,3 @@
+const {Pool}=require('pg');let pool;
+async function init(){const url=process.env.DATABASE_URL||process.env.POSTGRES_URL;if(!url)throw new Error('DATABASE_NOT_CONFIGURED');pool??=new Pool({connectionString:url,ssl:{rejectUnauthorized:false},max:3});await pool.query(`CREATE TABLE IF NOT EXISTS dragon_players(email_hash text PRIMARY KEY,player_name varchar(32) NOT NULL,kingdom jsonb NOT NULL DEFAULT '{}'::jsonb,updated_at timestamptz DEFAULT now(),created_at timestamptz DEFAULT now()); CREATE INDEX IF NOT EXISTS dragon_players_power_idx ON dragon_players (((kingdom->>'power')::int) DESC);`);return pool}
+module.exports={init};
