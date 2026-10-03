@@ -20,3 +20,9 @@ main{max-width:1280px;padding-top:10px}.world3d{height:min(76vh,760px);min-heigh
 .tabs{gap:2px;margin:10px 0}.tabs button{border-radius:0;background:#090908;border-color:#28231e;padding:11px 6px;font-size:.58rem;letter-spacing:.12em}.tabs button span{display:block;color:#5d554d;font-size:.48rem;margin-bottom:3px}.tabs button.active,.tabs button:hover{background:#181009;color:#d4aa68;border-color:#6e4928}
 .panel{border-radius:2px;background:#080807;border-color:#2b251f}.title h2{font:500 1.6rem Georgia}.card,.realm{border-radius:2px;background:linear-gradient(145deg,#11100e,#080807);border-color:#302a24}.icon,.realm-icon,.clanbadge{filter:grayscale(1);opacity:.55;font-size:1.2rem!important}.action{border-radius:1px;background:#17100a;border-color:#5b3d25;color:#cbb18b;letter-spacing:.08em;font-size:.65rem}
 @media(max-width:760px){.world3d{height:64vh;min-height:480px}.realm-status{top:auto;bottom:54px;left:12px;right:12px;grid-template-columns:repeat(4,1fr)}.realm-status span{text-align:center;padding:7px 3px}.building-info{bottom:8px;left:12px;right:12px}.world-label{top:10px;left:10px}.world-label strong{display:none}.game-head{flex-direction:row}.resources{gap:3px}.resources span{padding:5px}.resources i{display:none}.brand b{font-size:.72rem}.brand small{font-size:.45rem}}
+
+/* Preview installation instructions do not cover game controls. */
+.app-install{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px 5%;background:#17121f;color:#f5e8cb;border-bottom:1px solid #a47738;font-size:14px}
+.app-install button{padding:10px 16px;background:#ebb753;color:#17121f;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+.app-install button[hidden]{display:none}
+.app-install span{flex:1 1 260px;line-height:1.5}

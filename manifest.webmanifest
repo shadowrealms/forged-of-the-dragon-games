@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "Forged of the Dragon",
+  "short_name": "Forged Dragon",
+  "description": "Forged of the Dragon \u2014 Android installation trial",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#17121f",
+  "theme_color": "#17121f",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
