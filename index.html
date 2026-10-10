@@ -46,14 +46,15 @@ body.room-open header{position:sticky}
 
 
 /* Dragon's Awakening cinematic entrance */
-.dragon-intro{position:fixed;inset:0;z-index:9999;background:#020204 url('eyecatch.jpg') center/cover no-repeat;display:grid;place-items:center;overflow:hidden;isolation:isolate;animation:introLeave .9s ease 5.5s forwards}
-.dragon-intro:before{content:"";position:absolute;inset:0;background:#000;animation:eyeAwaken 3s ease-out forwards}
-.dragon-intro:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 24%,#0009 80%),linear-gradient(90deg,#ff620000,#ff8b1829,#ff620000);opacity:0;animation:fireSurge 1.6s ease 2.8s both}
-.dragon-intro__title{position:relative;z-index:2;text-align:center;color:#f5dfaa;font-family:Cinzel,Georgia,serif;font-size:clamp(1.3rem,4.6vw,3.8rem);letter-spacing:.13em;text-shadow:0 3px 28px #000,0 0 25px #f80;opacity:0;animation:titleReveal 2.5s ease 2.9s forwards;padding:0 5vw}
+.dragon-intro{position:fixed;inset:0;z-index:9999;background:#020204 url('eyecatch.jpg') center/cover no-repeat;display:grid;place-items:center;overflow:hidden;isolation:isolate;animation:introLeave .9s ease 9.6s forwards,eyeZoom 9.6s ease-out both}
+.dragon-intro:before{content:"";position:absolute;inset:0;background:#000;animation:eyeAwaken 2s ease-out forwards}
+.dragon-intro:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 24%,#0009 80%),linear-gradient(90deg,#ff620000,#ff8b1829,#ff620000);opacity:0;animation:fireSurge 1.8s ease 6.6s both}
+.dragon-intro__title{position:relative;z-index:2;text-align:center;color:#f5dfaa;font-family:Cinzel,Georgia,serif;font-size:clamp(1.3rem,4.6vw,3.8rem);letter-spacing:.13em;text-shadow:0 3px 28px #000,0 0 25px #f80;opacity:0;animation:titleReveal 2.3s ease 7.3s forwards;padding:0 5vw}
 .dragon-intro__title small{display:block;font:600 clamp(.65rem,1.2vw,1rem) Inter,Arial,sans-serif;letter-spacing:.32em;margin-top:16px}
 .dragon-intro__skip{position:absolute;z-index:4;right:clamp(16px,4vw,50px);bottom:clamp(20px,5vh,50px);border:1px solid #d9b875;color:#f5dfaa;background:#000b;padding:10px 18px;cursor:pointer}
 .dragon-intro.is-gone{display:none!important}
-@keyframes eyeAwaken{0%{opacity:1}45%{opacity:1}100%{opacity:0}}
+@keyframes eyeZoom{from{background-size:auto 105%}to{background-size:auto 120%}}
+@keyframes eyeAwaken{0%{opacity:1}30%{opacity:1}100%{opacity:0}}
 @keyframes fireSurge{0%{opacity:0;transform:scale(1)}45%{opacity:1}100%{opacity:.3;transform:scale(1.1)}}
 @keyframes titleReveal{0%{opacity:0;transform:translateY(20px)}35%{opacity:1;transform:none}100%{opacity:1}}
 @keyframes introLeave{0%,90%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
