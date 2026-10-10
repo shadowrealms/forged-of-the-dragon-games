@@ -32,8 +32,20 @@ img,video,iframe{max-width:100%}
  .projects,.gallery{grid-template-columns:1fr}
 }
 
+
+/* Dedicated cinematic rooms, keeping all original media and interactions */
+body.room-open .hero,body.room-open #purpose,body.room-open #about{display:none}
+body:not(.room-open) #trailers,body:not(.room-open) #films,body:not(.room-open) #storyboards{display:none}
+body.room-open #trailers,body.room-open #films,body.room-open #storyboards{display:none}
+body.room-trailers #trailers,body.room-films #films,body.room-storyboards #storyboards{display:block}
+body.room-open section.content{padding-top:clamp(32px,6vw,80px);min-height:65vh}
+.room-back{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);padding:10px 16px;color:var(--gold);font-size:.85rem;margin-bottom:28px;background:#16141a}
+.room-back:hover{background:#2a211b}
+body.room-open header{position:sticky}
+@media(max-width:760px){header{flex-wrap:wrap}nav{flex-wrap:wrap;gap:12px}body.room-open section.content{padding-top:28px}}
+
 </style></head><body>
-<header><a class="brand" href="#home">GE & LE STUDIOS<small>THE FORGED BROTHERS</small></a><nav aria-label="Main navigation"><a href="#trailers">Trailers</a><a href="#purpose">Our Purpose</a><a href="#films">Films</a><a href="#storyboards">Storyboards</a><a href="#soundtrack">Music</a><a href="#about">About</a></nav></header>
+<header><a class="brand" href="#home">GE & LE STUDIOS<small>THE FORGED BROTHERS</small></a><nav aria-label="Main navigation"><a href="#trailers">Videos</a><a href="#purpose">Our Purpose</a><a href="#films">Films</a><a href="#storyboards">Storyboards</a><a href="https://www.forgedsaga.com" target="_blank" rel="noopener">Books ↗</a><a href="#soundtrack">Music</a><a href="#about">About</a></nav></header>
 <main>
 <section id="home" class="hero"><div><p class="eyebrow">GE & LE Studios — The Forged Brothers</p><h1>Every life has value.<br><span class="gold">Every story can carry hope.</span></h1><p>Mercy. Grace. Hope. Faith. Second chances. From the page to the screen, stories that remind us no one is beyond redemption.</p><div class="actions"><a class="btn" href="#trailers">▶ Watch a trailer</a><a class="btn outline" href="https://www.forgedsaga.com" target="_blank" rel="noopener">Read the books ↗</a></div></div></section>
 <section id="trailers" class="content"><p class="eyebrow">Start watching</p><h2>Featured Trailers</h2><p class="section-lead">Four glimpses into the stories and values behind GE & LE Studios.</p><div class="video-grid"><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="Bringing War Home trailer"><source src="Bringingwarhome.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>Bringing War Home</h3><p>Some wounds never leave.</p></article><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="You Are Safe Now trailer"><source src="Youaresafenow.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>You Are Safe Now</h3><p>Mercy changes everything.</p></article><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="Everyone Matters trailer"><source src="Everyonematters.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>Everyone Matters</h3><p>No race. No colour. No religion. Just people.</p></article><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="Forged Heart trailer"><source src="Forgedheart.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>Forged Heart</h3><p>A love that lives beyond loss.</p></article></div></section>
@@ -49,4 +61,29 @@ img,video,iframe{max-width:100%}
 const films={flame:{title:"The Flame Beyond the Veil",intro:"A cinematic journey through ancient power, dragons and the bonds of loyalty.",scenes:["Opening world and atmosphere","Introduce Stephen and his allies","The first signs of danger","Dragon encounters","Conflict and sacrifice","A closing image that invites the next chapter"]},realms:{title:"Forged of the Realms",intro:"Caleb's emotional journey is the centre of this cinematic story.",scenes:["Caleb's wound and isolation","The call to change","Discovery of the wider realms","Dragon conflict and rising stakes","The cost of the journey","A return toward family and hope"]},second:{title:"Second Chance — Forged Destiny",intro:"A suspenseful drama that protects its central mystery.",scenes:["A soldier on the highway","Meeting Officer Brodie","Memories of war","A friend lost in battle","An encounter that raises questions","A final beat without revealing the ending"]},faith:{title:"Forged of Faith",intro:"A cross-cultural story of love, faith and mystery.",scenes:["Melbourne in the rain","Jacob and the music box","The journey into ancient China","Jian-Mei's courage","The mysteries of the road","A final image that leaves questions unanswered"]}};
 const dialog=document.getElementById("filmDialog");document.querySelectorAll("[data-film]").forEach(b=>b.addEventListener("click",()=>{const f=films[b.dataset.film];document.getElementById("dialogTitle").textContent=f.title;document.getElementById("dialogIntro").textContent=f.intro;document.getElementById("sceneList").replaceChildren(...f.scenes.map(s=>{const li=document.createElement("li");li.textContent=s;return li}));dialog.showModal()}));document.getElementById("closeDialog").addEventListener("click",()=>dialog.close());dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});document.getElementById("year").textContent=new Date().getFullYear();
 const storyDialog=document.getElementById("storyDialog");document.querySelectorAll(".story-image").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();document.getElementById("storyTitle").textContent=a.querySelector("span").childNodes[0].textContent.replace(/^\\d+ · /,"").trim();document.getElementById("storyIntro").textContent=a.dataset.storyIntro;document.getElementById("storyPreview").src=a.getAttribute("href");document.getElementById("storyPreview").alt=a.querySelector("img").alt;document.getElementById("storyFull").href=a.getAttribute("href");storyDialog.showModal()}));document.getElementById("closeStory").addEventListener("click",()=>storyDialog.close());storyDialog.addEventListener("click",e=>{if(e.target===storyDialog)storyDialog.close()});
+
+/* In-site rooms: navigation opens full collections rather than scrolling down the homepage. */
+(function(){
+ const rooms=['trailers','films','storyboards'];
+ const sections=rooms.map(id=>document.getElementById(id));
+ sections.forEach(section=>{
+  if(!section)return;
+  const back=document.createElement('a');back.href='#home';back.className='room-back';back.textContent='← Back to main hall';
+  section.insertBefore(back,section.firstChild);
+ });
+ function showRoom(){
+  const hash=decodeURIComponent(location.hash.slice(1));
+  const room=rooms.includes(hash)?hash:hash.startsWith('gallery-')?'storyboards':null;
+  document.body.classList.remove('room-open',...rooms.map(x=>'room-'+x));
+  if(room)document.body.classList.add('room-open','room-'+room);
+  requestAnimationFrame(()=>{
+   if(hash.startsWith('gallery-')&&document.getElementById(hash))document.getElementById(hash).scrollIntoView({block:'start'});
+   else window.scrollTo({top:0,behavior:'instant'});
+  });
+  document.querySelectorAll('video').forEach(v=>{if(!v.closest('#'+(room||'none')))v.pause()});
+ }
+ window.addEventListener('hashchange',showRoom);
+ showRoom();
+})();
+
 </script></body></html>
