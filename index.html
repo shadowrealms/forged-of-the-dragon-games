@@ -68,6 +68,18 @@ body.room-open .dragon-poster-hall{display:none}
 @media(max-width:700px){.dragon-poster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.dragon-intro{animation:none;display:none}.dragon-intro:before,.dragon-intro:after,.dragon-intro__title{animation:none}}
 
+
+/* Fullscreen artwork viewer */
+.art-lightbox{position:fixed;inset:0;z-index:12000;background:rgba(0,0,0,.97);display:none;flex-direction:column;align-items:center;justify-content:center;padding:12px;touch-action:pan-x pan-y}
+.art-lightbox.open{display:flex}
+.art-lightbox__image-wrap{width:100%;height:calc(100dvh - 104px);display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.art-lightbox__image{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transform-origin:center;user-select:none;-webkit-user-drag:none}
+.art-lightbox__controls{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;min-height:48px}
+.art-lightbox button{border:1px solid #d8b977;background:#18130d;color:#f5dfaa;padding:9px 16px;cursor:pointer;font-size:16px}
+.art-lightbox__caption{color:#e6dccb;font-size:13px;text-align:center;margin:5px 0}
+.dragon-poster-grid img,.story-image img{cursor:zoom-in}
+body.art-lightbox-open{overflow:hidden}
+
 </style></head><body><div class="dragon-intro" id="dragonIntro" aria-label="Dragon awakening cinematic introduction"><div class="dragon-intro__title">GE &amp; LE STUDIOS<small>THE FORGED BROTHERS</small></div><button type="button" class="dragon-intro__skip" id="skipDragonIntro">Skip intro →</button></div>
 
 <header><a class="brand" href="#home">GE & LE STUDIOS<small>THE FORGED BROTHERS</small></a><nav aria-label="Main navigation"><a href="#trailers">Videos</a><a href="#purpose">Our Purpose</a><a href="#films">Films</a><a href="#storyboards">Storyboards</a><a href="https://www.forgedsaga.com" target="_blank" rel="noopener">Books ↗</a><a href="#soundtrack">Music</a><a href="#about">About</a></nav></header>
@@ -124,4 +136,4 @@ const storyDialog=document.getElementById("storyDialog");document.querySelectorA
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash&&location.hash!=='#home')dismiss();
 })();
 
-</script></body></html>
+</script><div id="artLightbox" class="art-lightbox" role="dialog" aria-modal="true" aria-label="Fullscreen artwork viewer" aria-hidden="true"><div class="art-lightbox__controls"><button type="button" id="artZoomOut" aria-label="Zoom out">−</button><button type="button" id="artZoomReset" aria-label="Reset zoom">100%</button><button type="button" id="artZoomIn" aria-label="Zoom in">+</button><button type="button" id="artClose" aria-label="Close image">✕ Close</button></div><div id="artImageWrap" class="art-lightbox__image-wrap"><img id="artLightboxImage" class="art-lightbox__image" alt=""></div><p id="artLightboxCaption" class="art-lightbox__caption"></p></div></body></html>
