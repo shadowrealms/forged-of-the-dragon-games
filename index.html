@@ -44,10 +44,35 @@ body.room-open section.content{padding-top:clamp(32px,6vw,80px);min-height:65vh}
 body.room-open header{position:sticky}
 @media(max-width:760px){header{flex-wrap:wrap}nav{flex-wrap:wrap;gap:12px}body.room-open section.content{padding-top:28px}}
 
-</style></head><body>
+
+/* Dragon's Awakening cinematic entrance */
+.dragon-intro{position:fixed;inset:0;z-index:9999;background:#020204 url('eyecatch.jpg') center/cover no-repeat;display:grid;place-items:center;overflow:hidden;isolation:isolate;animation:introLeave .9s ease 5.5s forwards}
+.dragon-intro:before{content:"";position:absolute;inset:0;background:#000;animation:eyeAwaken 3s ease-out forwards}
+.dragon-intro:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 24%,#0009 80%),linear-gradient(90deg,#ff620000,#ff8b1829,#ff620000);opacity:0;animation:fireSurge 1.6s ease 2.8s both}
+.dragon-intro__title{position:relative;z-index:2;text-align:center;color:#f5dfaa;font-family:Cinzel,Georgia,serif;font-size:clamp(1.3rem,4.6vw,3.8rem);letter-spacing:.13em;text-shadow:0 3px 28px #000,0 0 25px #f80;opacity:0;animation:titleReveal 2.5s ease 2.9s forwards;padding:0 5vw}
+.dragon-intro__title small{display:block;font:600 clamp(.65rem,1.2vw,1rem) Inter,Arial,sans-serif;letter-spacing:.32em;margin-top:16px}
+.dragon-intro__skip{position:absolute;z-index:4;right:clamp(16px,4vw,50px);bottom:clamp(20px,5vh,50px);border:1px solid #d9b875;color:#f5dfaa;background:#000b;padding:10px 18px;cursor:pointer}
+.dragon-intro.is-gone{display:none!important}
+@keyframes eyeAwaken{0%{opacity:1}45%{opacity:1}100%{opacity:0}}
+@keyframes fireSurge{0%{opacity:0;transform:scale(1)}45%{opacity:1}100%{opacity:.3;transform:scale(1.1)}}
+@keyframes titleReveal{0%{opacity:0;transform:translateY(20px)}35%{opacity:1;transform:none}100%{opacity:1}}
+@keyframes introLeave{0%,90%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+body:has(.dragon-intro:not(.is-gone)) .hero{background-image:linear-gradient(90deg,#08090ec9,#140b09a3),url('Posterart.jpg');background-position:center;background-size:cover}
+.hero{background-image:linear-gradient(90deg,#08090ec9,#140b09a3),url('Posterart.jpg');background-position:center;background-size:cover}
+.dragon-poster-hall{max-width:1500px;margin:auto;padding:clamp(30px,5vw,75px) 5%}
+.dragon-poster-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.dragon-poster-grid img{width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid #7a592f;transition:transform .3s,filter .3s}
+.dragon-poster-grid img:hover{transform:scale(1.025);filter:brightness(1.12)}
+body.room-open .dragon-poster-hall{display:none}
+@media(max-width:700px){.dragon-poster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.dragon-intro{animation:none;display:none}.dragon-intro:before,.dragon-intro:after,.dragon-intro__title{animation:none}}
+
+</style></head><body><div class="dragon-intro" id="dragonIntro" aria-label="Dragon awakening cinematic introduction"><div class="dragon-intro__title">GE &amp; LE STUDIOS<small>THE FORGED BROTHERS</small></div><button type="button" class="dragon-intro__skip" id="skipDragonIntro">Skip intro →</button></div>
+
 <header><a class="brand" href="#home">GE & LE STUDIOS<small>THE FORGED BROTHERS</small></a><nav aria-label="Main navigation"><a href="#trailers">Videos</a><a href="#purpose">Our Purpose</a><a href="#films">Films</a><a href="#storyboards">Storyboards</a><a href="https://www.forgedsaga.com" target="_blank" rel="noopener">Books ↗</a><a href="#soundtrack">Music</a><a href="#about">About</a></nav></header>
 <main>
 <section id="home" class="hero"><div><p class="eyebrow">GE & LE Studios — The Forged Brothers</p><h1>Every life has value.<br><span class="gold">Every story can carry hope.</span></h1><p>Mercy. Grace. Hope. Faith. Second chances. From the page to the screen, stories that remind us no one is beyond redemption.</p><div class="actions"><a class="btn" href="#trailers">▶ Watch a trailer</a><a class="btn outline" href="https://www.forgedsaga.com" target="_blank" rel="noopener">Read the books ↗</a></div></div></section>
+<section class="dragon-poster-hall" aria-label="The Forged Dragon artwork"><p class="eyebrow">Beyond the veil</p><h2>Enter the Dragon Realms</h2><p class="section-lead">A glimpse of the kingdoms, fire and legends behind the cinematic universe.</p><div class="dragon-poster-grid"><img src="Posterart.jpg" alt="The Forged Dragon cinematic poster" loading="lazy"><img src="battleart.jpg" alt="Fantasy battle artwork" loading="lazy"><img src="battlescene.jpg" alt="Realm battle scene" loading="lazy"><img src="drago.jpg" alt="Dragon artwork" loading="lazy"><img src="totheskies.jpg" alt="Dragons take to the skies" loading="lazy"><img src="Wallartposter.jpg" alt="Cinematic wall poster" loading="lazy"><img src="fireblast.jpg" alt="Dragon fire artwork" loading="lazy"><img src="eyecatch.jpg" alt="Dragon eye awakening" loading="lazy"></div></section>
 <section id="trailers" class="content"><p class="eyebrow">Start watching</p><h2>Featured Trailers</h2><p class="section-lead">Four glimpses into the stories and values behind GE & LE Studios.</p><div class="video-grid"><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="Bringing War Home trailer"><source src="Bringingwarhome.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>Bringing War Home</h3><p>Some wounds never leave.</p></article><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="You Are Safe Now trailer"><source src="Youaresafenow.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>You Are Safe Now</h3><p>Mercy changes everything.</p></article><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="Everyone Matters trailer"><source src="Everyonematters.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>Everyone Matters</h3><p>No race. No colour. No religion. Just people.</p></article><article class="trailer-video"><video controls playsinline preload="metadata" aria-label="Forged Heart trailer"><source src="Forgedheart.mp4" type="video/mp4">Your browser does not support MP4 video playback.</video><h3>Forged Heart</h3><p>A love that lives beyond loss.</p></article></div></section>
 <section id="purpose" class="purpose-section"><div class="about-inner"><p class="eyebrow">What we stand for</p><h2>Stories with a purpose</h2><p>Our stories explore mercy, grace, hope, faith and second chances. Through worlds both familiar and extraordinary, we return to one belief: every life matters.</p></div></section>
 <section id="films" class="content"><p class="eyebrow">From script to screen</p><h2>Four Featured Productions</h2><p class="section-lead">Meet the characters and worlds behind our cinematic storyboards. Select a production to explore its visual journey.</p><div class="production-grid"><article class="production-card" id="production-flame"><div class="production-copy"><p class="eyebrow">Film concept</p><h3>The Flame Beyond the Veil</h3><p>When ancient power awakens, loyalty and sacrifice are tested.</p><a class="btn outline" href="#gallery-flame">Explore the storyboards ↓</a></div><div class="production-frames"><a href="#gallery-flame" aria-label="Explore The Flame Beyond the Veil"><img loading="lazy" src="Storyboard.png" alt="Cinematic concept — Beyond the veil"></a><a href="#gallery-flame" aria-label="Explore The Flame Beyond the Veil"><img loading="lazy" src="Crystals.png" alt="The Seven Crystals — Ancient power"></a><a href="#gallery-flame" aria-label="Explore The Flame Beyond the Veil"><img loading="lazy" src="Battle.png" alt="Battle study — The cost of conflict"></a></div></article><article class="production-card" id="production-realms"><div class="production-copy"><p class="eyebrow">Film concept</p><h3>Forged of the Realms</h3><p>A wounded man. A world at war. A journey toward home.</p><a class="btn outline" href="#gallery-realms">Explore the storyboards ↓</a></div><div class="production-frames"><a href="#gallery-realms" aria-label="Explore Forged of the Realms"><img loading="lazy" src="Realms.png" alt="Forged of the Realms — Caleb’s journey"></a><a href="#gallery-realms" aria-label="Explore Forged of the Realms"><img loading="lazy" src="Fight.png" alt="Action study — A moment of conflict"></a><a href="#gallery-realms" aria-label="Explore Forged of the Realms"><img loading="lazy" src="Saga.png" alt="The Forged Saga — Connected by hope"></a></div></article><article class="production-card" id="production-second"><div class="production-copy"><p class="eyebrow">Film concept</p><h3>Second Chance — Forged Destiny</h3><p>A soldier carries the war home, unaware of the truth awaiting him.</p><a class="btn outline" href="#gallery-second">Explore the storyboards ↓</a></div><div class="production-frames"><a href="#gallery-second" aria-label="Explore Second Chance — Forged Destiny"><img loading="lazy" src="Ghost%20story.png" alt="Second Chance — The unseen truth"></a><a href="#gallery-second" aria-label="Explore Second Chance — Forged Destiny"><img loading="lazy" src="Stories.png" alt="Stories — Lives worth telling"></a><a href="#gallery-second" aria-label="Explore Second Chance — Forged Destiny"><img loading="lazy" src="Music.png" alt="The Music of the Forged Saga"></a></div></article><article class="production-card" id="production-faith"><div class="production-copy"><p class="eyebrow">Film concept</p><h3>Forged of Faith</h3><p>Two hearts, an ancient music box, and a love that crosses centuries.</p><a class="btn outline" href="#gallery-faith">Explore the storyboards ↓</a></div><div class="production-frames"><a href="#gallery-faith" aria-label="Explore Forged of Faith"><img loading="lazy" src="Forged%20of%20faith%20storyboard.png" alt="Forged of Faith — A timeless connection"></a><a href="#gallery-faith" aria-label="Explore Forged of Faith"><img loading="lazy" src="Jian.png" alt="Jian-Mei — Courage across worlds"></a><a href="#gallery-faith" aria-label="Explore Forged of Faith"><img loading="lazy" src="Faithdriven.png" alt="Faith — The journey continues"></a></div></article></div></section>
@@ -84,6 +109,18 @@ const storyDialog=document.getElementById("storyDialog");document.querySelectorA
  }
  window.addEventListener('hashchange',showRoom);
  showRoom();
+})();
+
+
+/* Skip/replay behavior, with accessible reduced-motion fallback. */
+(function(){
+ const intro=document.getElementById('dragonIntro');
+ const skip=document.getElementById('skipDragonIntro');
+ if(!intro)return;
+ const dismiss=()=>{intro.classList.add('is-gone');intro.setAttribute('aria-hidden','true')};
+ skip.addEventListener('click',dismiss);
+ intro.addEventListener('animationend',e=>{if(e.target===intro)dismiss()});
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash&&location.hash!=='#home')dismiss();
 })();
 
 </script></body></html>
