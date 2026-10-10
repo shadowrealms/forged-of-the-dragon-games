@@ -136,4 +136,25 @@ const storyDialog=document.getElementById("storyDialog");document.querySelectorA
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash&&location.hash!=='#home')dismiss();
 })();
 
-</script><div id="artLightbox" class="art-lightbox" role="dialog" aria-modal="true" aria-label="Fullscreen artwork viewer" aria-hidden="true"><div class="art-lightbox__controls"><button type="button" id="artZoomOut" aria-label="Zoom out">−</button><button type="button" id="artZoomReset" aria-label="Reset zoom">100%</button><button type="button" id="artZoomIn" aria-label="Zoom in">+</button><button type="button" id="artClose" aria-label="Close image">✕ Close</button></div><div id="artImageWrap" class="art-lightbox__image-wrap"><img id="artLightboxImage" class="art-lightbox__image" alt=""></div><p id="artLightboxCaption" class="art-lightbox__caption"></p></div></body></html>
+</script><div id="artLightbox" class="art-lightbox" role="dialog" aria-modal="true" aria-label="Fullscreen artwork viewer" aria-hidden="true"><div class="art-lightbox__controls"><button type="button" id="artZoomOut" aria-label="Zoom out">−</button><button type="button" id="artZoomReset" aria-label="Reset zoom">100%</button><button type="button" id="artZoomIn" aria-label="Zoom in">+</button><button type="button" id="artClose" aria-label="Close image">✕ Close</button></div><div id="artImageWrap" class="art-lightbox__image-wrap"><img id="artLightboxImage" class="art-lightbox__image" alt=""></div><p id="artLightboxCaption" class="art-lightbox__caption"></p></div><script>
+(function(){
+ const box=document.getElementById('artLightbox'),img=document.getElementById('artLightboxImage'),wrap=document.getElementById('artImageWrap'),caption=document.getElementById('artLightboxCaption');
+ if(!box||!img)return;
+ let scale=1,dx=0,dy=0,previousFocus=null,drag=null,pinchStart=0,pinchScale=1;const pointers=new Map();
+ const render=()=>{img.style.transform='translate('+dx+'px,'+dy+'px) scale('+scale+')';document.getElementById('artZoomReset').textContent=Math.round(scale*100)+'%'};
+ const zoom=n=>{scale=Math.max(1,Math.min(5,n));if(scale===1)dx=dy=0;render()};
+ const open=(src,alt)=>{previousFocus=document.activeElement;img.src=src;img.alt=alt||'Artwork';caption.textContent=alt||'Artwork';scale=1;dx=dy=0;render();box.classList.add('open');box.setAttribute('aria-hidden','false');document.body.classList.add('art-lightbox-open');document.getElementById('artClose').focus()};
+ const close=()=>{box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.classList.remove('art-lightbox-open');img.removeAttribute('src');pointers.clear();if(previousFocus?.focus)previousFocus.focus()};
+ document.querySelectorAll('.dragon-poster-grid img, .story-image img, .production-frames img').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();const a=el.closest('a');open(a?.classList.contains('story-image')?a.getAttribute('href'):el.getAttribute('src'),el.alt)}));
+ document.getElementById('artClose').addEventListener('click',close);
+ document.getElementById('artZoomIn').addEventListener('click',()=>zoom(scale+.5));
+ document.getElementById('artZoomOut').addEventListener('click',()=>zoom(scale-.5));
+ document.getElementById('artZoomReset').addEventListener('click',()=>{dx=dy=0;zoom(1)});
+ box.addEventListener('click',e=>{if(e.target===box)close()});
+ document.addEventListener('keydown',e=>{if(!box.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='+')zoom(scale+.5);if(e.key==='-')zoom(scale-.5)});
+ wrap.addEventListener('wheel',e=>{e.preventDefault();zoom(scale+(e.deltaY<0?.2:-.2))},{passive:false});
+ wrap.addEventListener('pointerdown',e=>{wrap.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===1)drag={x:e.clientX-dx,y:e.clientY-dy};if(pointers.size===2){const p=[...pointers.values()];pinchStart=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);pinchScale=scale}});
+ wrap.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2){const p=[...pointers.values()];if(pinchStart)zoom(pinchScale*Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)/pinchStart)}else if(pointers.size===1&&drag&&scale>1){dx=e.clientX-drag.x;dy=e.clientY-drag.y;render()}});
+ const end=e=>{pointers.delete(e.pointerId);drag=null;if(pointers.size<2)pinchStart=0};wrap.addEventListener('pointerup',end);wrap.addEventListener('pointercancel',end);
+})();
+</script></body></html>
